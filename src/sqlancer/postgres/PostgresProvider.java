@@ -54,8 +54,6 @@ public final class PostgresProvider extends ProviderAdapter<PostgresGlobalState,
 
     public static boolean generateOnlyKnown;
 
-    private PostgresGlobalState globalState;
-
     public PostgresProvider() {
         super(PostgresGlobalState.class, PostgresOptions.class);
     }
@@ -234,6 +232,11 @@ public final class PostgresProvider extends ProviderAdapter<PostgresGlobalState,
             s.execute(createDatabaseCommand);
         }
         con.close();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            throw new AssertionError(e);
+        }
         con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + databaseName,
                 globalState.getOptions().getUserName(), globalState.getOptions().getPassword());
         return con;
@@ -250,9 +253,8 @@ public final class PostgresProvider extends ProviderAdapter<PostgresGlobalState,
             }
             for (String lc : Arrays.asList("LC_COLLATE", "LC_CTYPE")) {
                 if (Randomly.getBoolean()) {
-                    globalState = new PostgresGlobalState();
-                    globalState.setConnection(con);
-                    sb.append(String.format(" %s = '%s'", lc, Randomly.fromList(globalState.getCollates())));
+                    state.setConnection(con);
+                    sb.append(String.format(" %s = '%s'", lc, Randomly.fromList(state.getCollates())));
                 }
             }
             sb.append(" TEMPLATE template0");
