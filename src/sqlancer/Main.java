@@ -29,6 +29,7 @@ import com.beust.jcommander.JCommander.Builder;
 import sqlancer.clickhouse.ClickHouseProvider;
 import sqlancer.cockroachdb.CockroachDBProvider;
 import sqlancer.duckdb.DuckDBProvider;
+import sqlancer.noisepage.NoisePageProvider;
 import sqlancer.mariadb.MariaDBProvider;
 import sqlancer.mysql.MySQLProvider;
 import sqlancer.postgres.PostgresProvider;
@@ -537,6 +538,7 @@ public final class Main {
         providers.add(new PostgresProvider());
         providers.add(new ClickHouseProvider());
         providers.add(new DuckDBProvider());
+        providers.add(new NoisePageProvider());
         return providers;
     }
 
