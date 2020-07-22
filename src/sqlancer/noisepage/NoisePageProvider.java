@@ -132,14 +132,14 @@ public class NoisePageProvider extends ProviderAdapter<NoisePageGlobalState, Noi
 
     @Override
     public Connection createDatabase(NoisePageGlobalState globalState) throws SQLException {
-        String url = "jdbc:duckdb:";
+        String url = "jdbc:terrier:";
         return DriverManager.getConnection(url, globalState.getOptions().getUserName(),
                 globalState.getOptions().getPassword());
     }
 
     @Override
     public String getDBMSName() {
-        return "duckdb";
+        return "noisepage";
     }
 
 }
